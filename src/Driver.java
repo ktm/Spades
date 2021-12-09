@@ -39,14 +39,10 @@ public class Driver {
 		memory = new Memory();
 		playerAry = WelcomeGUI.getPlayers();
 		players = new Player[4];
-		for (int i = 0; i < playerAry.length; i++) {
-			if (playerAry[i].equals("Bot"))
-				players[i] = new Bot();
-			else
-				players[i] = new Human();
+		players[0] = new Human();
+		for (int i = 1; i < playerAry.length; i++) {
+			players[i] = new Bot();
 		}
-		// players[0].turnToPlay = true;
-
 	}
 
 	/**

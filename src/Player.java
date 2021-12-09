@@ -71,6 +71,7 @@ public class Player {
 	 */
 	public void setHand(Hand hand) {
 		myHand = hand;
+		myHand.sort();
 	}
 
 	/**

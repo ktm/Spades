@@ -28,9 +28,9 @@ public class Hand {
 		hand = new ArrayList<>();
 	}
 
-	/*
-	 * PUBLIC METHODS
-	 */
+	public void sort() {
+		hand.sort(Card::compareTo);
+	}
 
 	/**
 	 * Adds a card object to the hand and sorts the hand as the card is added

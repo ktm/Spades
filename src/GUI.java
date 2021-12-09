@@ -998,7 +998,7 @@ public class GUI extends JFrame {
         }
 
         playerE[0].setIcon(new ImageIcon(sizedVerticalHandImage));
-        playerS[0].setIcon(new ImageIcon(sizedHorizontalHandImage));
+//        playerS[0].setIcon(new ImageIcon(sizedHorizontalHandImage));
         playerW[0].setIcon(new ImageIcon(sizedVerticalHandImage));
         playerN[0].setIcon(new ImageIcon(sizedHorizontalHandImage));
     }
@@ -1033,6 +1033,7 @@ public class GUI extends JFrame {
          * if bot create a CardButton with PlayCard action listener and click it
          */
         public void actionPerformed(ActionEvent e) {
+            System.err.println("Play.actionPerformed!!!");
             // Deals hands of 13 cards to each player
             driver.dealHands();
             // Hide the play button
@@ -1136,7 +1137,7 @@ public class GUI extends JFrame {
                     button.addActionListener(p);
                     myHand0.add(i, button);
                     cardDisplaySouth.add(myHand0.get(i));
-                    myHand0.get(i).setVisible(false);
+                    myHand0.get(i).setVisible(true);
                 }
             }
 
@@ -1227,10 +1228,11 @@ public class GUI extends JFrame {
                 // Every player has a boolean turnToPlay property that is true
                 // when it is their turn to
                 // play. Players[0] is always the South player.
+                playerS[0].setVisible(false);
+
                 if (driver.players[0].getTurnToPlay()) {
                     // If players[0] is human, respond appropriately to card
                     // click
-                    if (driver.players[0] instanceof Human) {
                         Card c = b.getCard();
                         if (c.getSuit() == Suit.SPADE)
                             spadesPlayed = true;
@@ -1239,24 +1241,9 @@ public class GUI extends JFrame {
                         l1 = new JLabel(b.getIcon());
                         cardDisplaySouth.remove(b);
                         myHand0.remove(b);
-                        for (CardButton aMyHand0 : myHand0) {
-                            aMyHand0.setVisible(false);
-                        }
+
                         centerSouth.add(l1, BorderLayout.CENTER);
                         driver.players[0].getHand().remove(c);
-                        playerS[0].setVisible(true);
-                        // If players[0] is a bot, call their playCard method
-                        // and display card
-                    } else if (driver.players[0] instanceof Bot) {
-                        Card c = ((Bot) driver.players[0]).playCard(middlePile);
-                        c.setScreenRes(screenResNum);
-                        if (c.getSuit() == Suit.SPADE)
-                            spadesPlayed = true;
-                        playedCards.set(0, c);
-                        middlePile.add(c);
-                        l1 = new JLabel(c.getImage());
-                        centerSouth.add(l1, BorderLayout.CENTER);
-                    }
 
                     // Get ready for next player's turn
                     turnNumber++;
@@ -1701,14 +1688,14 @@ public class GUI extends JFrame {
          */
         public void actionPerformed(ActionEvent e) {
             nextPlayerReady.setVisible(false);
-            if (driver.players[0].getTurnToPlay()) {
-                playerS[0].setVisible(false);
-                for (CardButton aMyHand0 : myHand0) {
-                    aMyHand0.setVisible(true);
-                    aMyHand0.setEnabled(true);
-                }
-                playableCards(myHand0, middlePile);
-            } else if (driver.players[1].getTurnToPlay()) {
+            playerS[0].setVisible(false);
+            for (CardButton aMyHand0 : myHand0) {
+                aMyHand0.setVisible(true);
+                aMyHand0.setEnabled(true);
+            }
+            playableCards(myHand0, middlePile);
+
+            if (driver.players[1].getTurnToPlay()) {
                 playerW[0].setVisible(false);
                 for (CardButton aMyHand1 : myHand1) {
                     aMyHand1.setVisible(true);

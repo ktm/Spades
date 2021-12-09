@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -23,6 +24,7 @@ public class Card implements Comparable<Card> {
     private Suit mySuit; // the suit of the card.
     private int number; // the number of the card.
     private ImageIcon image; // the Image of the card based on the suit and number.
+    private ImageIcon disabledImage;
 
 	/*
      * CONSTRUCTORS
@@ -105,13 +107,13 @@ public class Card implements Comparable<Card> {
     private static int suitSwitch(Suit s) {
         switch (s) {
             case SPADE:
-                return 4;
+                return 1;
             case DIAMOND:
-                return 1;
+                return 2;
             case CLUB:
-                return 1;
+                return 3;
             case HEART:
-                return 1;
+                return 4;
             default:
                 return 0;
         }
@@ -271,6 +273,7 @@ public class Card implements Comparable<Card> {
         else if (number == 13)
             cardDef += "king_of_";
 
+        String cardDefDisabled = cardDef;
         if (mySuit == Suit.SPADE)
             cardDef += "spades.png";
         if (mySuit == Suit.CLUB)
@@ -279,7 +282,6 @@ public class Card implements Comparable<Card> {
             cardDef += "diamonds.png";
         if (mySuit == Suit.HEART)
             cardDef += "hearts.png";
-
         Image img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream(cardDef));
@@ -296,8 +298,16 @@ public class Card implements Comparable<Card> {
         }
 
         image = new ImageIcon(scaledImage);
+        disabledImage = new ImageIcon(disable(scaledImage));
     }
 
+    Image disable(Image myPicture) {
+        Graphics2D g = (Graphics2D) myPicture.getGraphics();
+        g.setStroke(new BasicStroke(3));
+        g.setColor(Color.BLUE);
+        g.drawRect(10, 10, myPicture.getWidth() - 20, myPicture.getHeight() - 20);
+        return myPicture;
+    }
     /**
      * Prints the name of the card using the getName method
      */
@@ -339,7 +349,9 @@ public class Card implements Comparable<Card> {
         suit2 = suitSwitch(secondCard.getSuit());
 
         if (getSuit() == (secondCard).getSuit()) {
-            if (getNumber() < (secondCard).getNumber())
+            if (getNumber() == 1)  // for some reason the Ace is card 1
+                return -1;
+            if (getNumber() > (secondCard).getNumber())
                 return -1;
             else
                 return 1;
@@ -351,4 +363,8 @@ public class Card implements Comparable<Card> {
 
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(mySuit, number);
+    }
 }
