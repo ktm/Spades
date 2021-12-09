@@ -298,16 +298,9 @@ public class Card implements Comparable<Card> {
         }
 
         image = new ImageIcon(scaledImage);
-        disabledImage = new ImageIcon(disable(scaledImage));
+//        disabledImage = new ImageIcon(disable(scaledImage));
     }
 
-    Image disable(Image myPicture) {
-        Graphics2D g = (Graphics2D) myPicture.getGraphics();
-        g.setStroke(new BasicStroke(3));
-        g.setColor(Color.BLUE);
-        g.drawRect(10, 10, myPicture.getWidth() - 20, myPicture.getHeight() - 20);
-        return myPicture;
-    }
     /**
      * Prints the name of the card using the getName method
      */
